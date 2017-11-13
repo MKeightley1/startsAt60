@@ -10,36 +10,40 @@
 		-Number of Iterations (Example: 10)
 	Assumptions:
 		-0 minimum grid value
+	ERROR Handling: If input it not valid - error messages appear.
+		1.Grid is too small for dimensions of circle
+		2.Any number below 0
+		
+	Example Command: php thePuzzle.php 100 300 3 10
+	Test Run Example:  php thePuzzle.php testrun
+	
 */
 
 include 'randomPlotPoints.php';
 include 'checkCircleRadius.php';
-
 	
 	//get command input
-	foreach($argv as $key => $value){
-		if($key=="gridSize"){
-			$gridSize=$value;
-		}elseif($key=="circleDiameter"){
-			$circleDiameter=$value;
-		}elseif($key=="n"){
-			$n=$value;
-		}elseif($key=="iterations"){
-			$iterations=$value;
-		}elseif($key=="test"){
-			$test=$value;
+	if(count($argv)==5){
+		//test input parameters and check for unique conditions
+		if($argv[1]>0&&$argv[2]>0&&$argv[3]>0&&$argv[4]>0){
+			if($argv[1]>=$argv[2]){
+				
+					print_r("----Monte Carlo simulation----\n");
+				simulation($argv[1],$argv[2],$argv[3],$argv[4]);
+			}else{
+				print_r("ERROR: Grid isnt big enough for parameters.");
+			}
+		}else{
+			print_r("ERROR: Invalid arguments given.");
 		}
-	};
-	if($test){
-		//test input
-		$test = simulation(1000,900,100,10);
-	}else if(count($argv)==4){
-		simulation($gridSize,$circleDiameter,$n,$iterations);
+	}else if($argv[1]=="testrun"){
+		//test simulation
+		print_r("----Running Test----\n");
+		simulation(1000,900,100,10);
 	}else{
-		print_r("Not enough arguments given.");
+		print_r("ERROR: Not enough arguments given.");
 	}
-	
-	
+
 	
 
 	//similute Monte Carlo simulation
@@ -70,7 +74,7 @@ include 'checkCircleRadius.php';
 			
 			$iterations--;
 		}
-		print_r("AVG PI:$total_pi/$total_iterations");
+		print_r("The average PI is: ".number_format($total_pi/$total_iterations,2));
 	}
 
 ?>
