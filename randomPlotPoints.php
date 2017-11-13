@@ -11,9 +11,8 @@ Program layout - english
 */
 
 
-define("MIN_GRID", 0);
-define("MAX_GRID", 1000);
-define("MAX_PLOTS", 100);
+
+
 
 class RandomPlotPoints{
 

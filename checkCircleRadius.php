@@ -19,7 +19,6 @@
 */
 
 
-define("CENTER_GRID", 500);
 
 class CheckCircleRadius{
 
@@ -40,23 +39,16 @@ class CheckCircleRadius{
 			}
 			
 			$grid_distance = sqrt(pow($x_distance,2)+pow($y_distance,2));
-			if($grid_distance>CENTER_GRID){
-				$plots_out_circle++;
+			//check how many are in circle
+			if($grid_distance<=RADIUS){
+				$plots_in_circle++;
 			}
 		}
 		
-		return $plots_out_circle;
+		return $plots_in_circle;
 	}
 
 }
-
-$test_array[0][0]=400;
-$test_array[0][1]=400;
-$test_class = new CheckCircleRadius();
-print_r($test_class->checkPoints($test_array));
-
-
-
 
 ?>
 
