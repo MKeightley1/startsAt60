@@ -9,6 +9,8 @@ Program layout - english
 -	if not - add to list
 
 */
+
+
 define("MIN_GRID", 0);
 define("MAX_GRID", 1000);
 define("MAX_PLOTS", 100);
@@ -43,14 +45,10 @@ class RandomPlotPoints{
 				$plotPoint_array++;	
 			}
 		}
-		print_r($plotPoint_array);
+		return $plotPoint_array;
 	}
 
 }
-
-
-$RandomPlotPoints = new RandomPlotPoints();
-$RandomPlotPoints->generatePoints();
 
 
 ?>
