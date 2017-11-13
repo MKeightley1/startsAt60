@@ -14,13 +14,15 @@
 		1.Grid is too small for dimensions of circle
 		2.Any number below 0
 		
-	Example Command: php thePuzzle.php 100 300 3 10
-	Test Run Example:  php thePuzzle.php testrun
+	Methods:
+	1. simulation - run the Monte Carlo simulation with given input
+	2. checkPoints - tally all grid points which are withing the circle
+		
+
 	
 */
 
 include 'randomPlotPoints.php';
-include 'checkCircleRadius.php';
 	
 	//get command input
 	if(count($argv)==5){
@@ -28,7 +30,7 @@ include 'checkCircleRadius.php';
 		if($argv[1]>0&&$argv[2]>0&&$argv[3]>0&&$argv[4]>0){
 			if($argv[1]>=$argv[2]){
 				
-					print_r("----Monte Carlo simulation----\n");
+				print_r("----Monte Carlo simulation----\n");
 				simulation($argv[1],$argv[2],$argv[3],$argv[4]);
 			}else{
 				print_r("ERROR: Grid isnt big enough for parameters.");
@@ -36,10 +38,14 @@ include 'checkCircleRadius.php';
 		}else{
 			print_r("ERROR: Invalid arguments given.");
 		}
-	}else if($argv[1]=="testrun"){
-		//test simulation
-		print_r("----Running Test----\n");
-		simulation(1000,900,100,10);
+	}else if(count($argv)==2){
+		if($argv[1]=="testrun"){
+			//test simulation
+			print_r("----Running Test----\n");
+			simulation(1000,900,100,10);
+		}else{
+			print_r("ERROR: Not enough arguments given.");
+		}
 	}else{
 		print_r("ERROR: Not enough arguments given.");
 	}
@@ -56,8 +62,7 @@ include 'checkCircleRadius.php';
 			$plotPoints = $RandomPlotPoints->generatePoints($gridSize,$n);
 			
 			//get all points within circle
-			$CheckCircleRadius = new CheckCircleRadius();
-			$plotsWithinCircle = $CheckCircleRadius->checkPoints($gridSize,$plotPoints,$circleDiameter);
+			$plotsWithinCircle = checkPoints($gridSize,$plotPoints,$circleDiameter);
 			
 			//get percentage 
 			$plotsWithinCirclePercentage = $plotsWithinCircle/$n;
@@ -75,6 +80,37 @@ include 'checkCircleRadius.php';
 			$iterations--;
 		}
 		print_r("The average PI is: ".number_format($total_pi/$total_iterations,2));
+	}
+	
+	
+	
+	
+	//Find all the points within a given circle on the grid
+	function checkPoints($gridSize,$plotPoints,$circleDiameter){
+		$plots_in_circle=0;
+		$plots_out_circle=0;
+		$grid_middle=$gridSize/2;
+		foreach($plotPoints as $plotPoint){
+			//find the distance from the middle of the grid
+			$x_distance = $grid_middle-$plotPoint[0];
+			$y_distance = $grid_middle-$plotPoint[1];
+			
+			//ensure all distances from grid center is > 0
+			if($x_distance<0){
+				$x_distance= abs($x_distance);
+			}
+			if($y_distance<0){
+				$y_distance= abs($y_distance);
+			}
+			
+			$grid_distance = sqrt(pow($x_distance,2)+pow($y_distance,2));
+			//check how many are in circle
+			if($grid_distance<=($circleDiameter/2)){
+				$plots_in_circle++;
+			}
+		}
+		
+		return $plots_in_circle;
 	}
 
 ?>
