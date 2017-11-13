@@ -1,34 +1,28 @@
 <?php
 /*
- - get all points
- - understand question
-	*diameter of 900 in center of grid - with 450 as radius each way.
-	*plot points 500,500 is center of grid
-	*after reading doc about Euclidean_distance and considering triangular methods
-	need to figure out how to check if plot points are in range of circle.
-
-	Example Plot Points Calculations - if lined with center of grid
-	Plot point 1: 34,78
-	Plot point 2: 98,107
-	
-	Using right angle triagle maths
-	C^2 = a^2 + b^2 squared
-	
-	Note: google pow function for php
-
+	Date: 13/11/2017
+	Author: Maurice Keightley
+	Purpose: Find all the points within a given circleon the grid
+	Methods:checkPoints
+	Parameters:
+		-Grid Size (Example: 1000)
+		-Circle Diameter (Example: 900)
+		-Number of points (Example: 100)
+		-Number of Iterations (Example: 10)
+	Assumptions:
+		-0 minimum grid value
 */
-
-
 
 class CheckCircleRadius{
 
-	function checkPoints($plotPoints){
+	function checkPoints($gridSize,$plotPoints,$circleDiameter){
 		$plots_in_circle=0;
 		$plots_out_circle=0;
+		$grid_middle=$gridSize/2;
 		foreach($plotPoints as $plotPoint){
-			//get x diff from circle center- assuming circle center grid = 500,500
-			$x_distance = CENTER_GRID-$plotPoint[0];
-			$y_distance = CENTER_GRID-$plotPoint[1];
+			//find the distance from the middle of the grid
+			$x_distance = $grid_middle-$plotPoint[0];
+			$y_distance = $grid_middle-$plotPoint[1];
 			
 			//ensure all distances from grid center is > 0
 			if($x_distance<0){
@@ -40,7 +34,7 @@ class CheckCircleRadius{
 			
 			$grid_distance = sqrt(pow($x_distance,2)+pow($y_distance,2));
 			//check how many are in circle
-			if($grid_distance<=RADIUS){
+			if($grid_distance<=($circleDiameter/2)){
 				$plots_in_circle++;
 			}
 		}

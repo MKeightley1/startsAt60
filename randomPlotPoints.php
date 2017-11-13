@@ -1,32 +1,32 @@
 <?php
 
 /*
-Program layout - english
-
--	how many dots we have so far?
--	if we need more - get x and y
--	check array if we have those points already
--	if not - add to list
+	Date: 13/11/2017
+	Author: Maurice Keightley
+	Purpose: Generate random dots on a grid
+	Parameters:
+		-Grid Size (Example: 1000)
+		-Circle Diameter (Example: 900)
+		-Number of points (Example: 100)
+		-Number of Iterations (Example: 10)
+	Assumptions:
+		-0 minimum grid value
 
 */
 
-
-
-
-
 class RandomPlotPoints{
 
-	function generatePoints(){
+	function generatePoints($gridSize,$n){
 		//init variables
 		$newPlotPoint_x =0;
 		$newPlotPoint_y = 0;
 		$plotPoint_array = [];
 
 		//how many dots we have so far?
-		while(count($plotPoint_array)<MAX_PLOTS){
+		while(count($plotPoint_array)<$n){
 			//Get x and y points
-			$newPlotPoint_x = rand(MIN_GRID,MAX_GRID);
-			$newPlotPoint_y = rand(MIN_GRID,MAX_GRID);
+			$newPlotPoint_x = rand(0,$gridSize);
+			$newPlotPoint_y = rand(0,$gridSize);
 			$plot_status=false;
 			
 			//check array
